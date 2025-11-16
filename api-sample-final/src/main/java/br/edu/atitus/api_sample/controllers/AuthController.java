@@ -35,20 +35,23 @@ public class AuthController {
 	}
 	
 	@PostMapping("/signin")
-	public ResponseEntity<String> signin(@RequestBody SigninDTO signin) {
-		try {
-			authConfig.getAuthenticationManager()
-				.authenticate(new UsernamePasswordAuthenticationToken(signin.email(), signin.password()));
-		} catch (AuthenticationException e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+public ResponseEntity<String> signin(@RequestBody SigninDTO signin) {
+    try {
+        authConfig.getAuthenticationManager()
+            .authenticate(new UsernamePasswordAuthenticationToken(signin.email(), signin.password()));
+        
 
-		} catch (Exception e) {
-			
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-		
-		return ResponseEntity.ok(JWTUtils.generateToken(signin.email()));
-	}
+        UserEntity user = (UserEntity) service.findByEmail(signin.email()); 
+        String nomeUsuario = user.getName();
+        
+        return ResponseEntity.ok(JWTUtils.generateToken(signin.email(), nomeUsuario)); 
+
+    } catch (AuthenticationException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+    } catch (Exception e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+}
 	
 
 	@PostMapping("/signup")
