@@ -42,9 +42,8 @@ public ResponseEntity<String> signin(@RequestBody SigninDTO signin) {
         
 
         UserEntity user = (UserEntity) service.findByEmail(signin.email()); 
-        String nomeUsuario = user.getName();
         
-        return ResponseEntity.ok(JWTUtils.generateToken(signin.email(), nomeUsuario)); 
+        return ResponseEntity.ok(JWTUtils.generateToken(signin.email(), signin.nomeUsuario())); 
 
     } catch (AuthenticationException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
