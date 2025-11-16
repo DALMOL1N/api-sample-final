@@ -39,7 +39,7 @@ public class UserService implements UserDetailsService{
 				|| user.getPassword().isEmpty()
 				|| user.getPassword().length() < 8)
 			throw new Exception("Password inválido");
-		// TODO Validar a força da senha (Caracteres maiúsculos, minúsculos e númerais)
+		// TODO  a força daValidar senha (Caracteres maiúsculos, minúsculos e númerais)
 		
 		if (user.getType() == null)
 			throw new Exception("Tipo de usuário inválido");
