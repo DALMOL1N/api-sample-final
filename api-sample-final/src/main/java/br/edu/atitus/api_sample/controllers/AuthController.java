@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import br.edu.atitus.api_sample.components.JWTUtils;
 import br.edu.atitus.api_sample.dtos.SigninDTO;
 import br.edu.atitus.api_sample.dtos.SignupDTO;
+import br.edu.atitus.api_sample.dtos.LoginResponseDTO;
 import br.edu.atitus.api_sample.entities.UserEntity;
 import br.edu.atitus.api_sample.entities.UserType;
 import br.edu.atitus.api_sample.services.UserService;
@@ -34,23 +35,27 @@ public class AuthController {
 		this.authConfig = authConfig;
 	}
 	
-	@PostMapping("/signin")
-public ResponseEntity<String> signin(@RequestBody SigninDTO signin) {
-    try {
-        authConfig.getAuthenticationManager()
-            .authenticate(new UsernamePasswordAuthenticationToken(signin.email(), signin.password()));
-        
+@PostMapping("/signin")
+    public ResponseEntity<LoginResponseDTO> signin(@RequestBody SigninDTO signin) {
+        try {
+            authConfig.getAuthenticationManager()
+                .authenticate(new UsernamePasswordAuthenticationToken(signin.email(), signin.password()));
 
-        UserEntity user = (UserEntity) service.findByEmail(signin.email()); 
-        
-        return ResponseEntity.ok(JWTUtils.generateToken(signin.email(), signin.nomeUsuario())); 
+            UserEntity user = (UserEntity) service.findByEmail(signin.email()); 
+            String nomeDoUsuario = user.getName(); //
+            String emailDoUsuario = user.getEmail();
+            
 
-    } catch (AuthenticationException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-    } catch (Exception e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+            String token = JWTUtils.generateToken(emailDoUsuario, nomeDoUsuario);
+
+            return ResponseEntity.ok(new LoginResponseDTO(token, nomeDoUsuario)); 
+
+        } catch (AuthenticationException e) {
+            throw new RuntimeException("Email ou senha inválidos", e);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao processar login", e);
+        }
     }
-}
 	
 
 	@PostMapping("/signup")
