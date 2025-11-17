@@ -53,10 +53,6 @@ public class UserService implements UserDetailsService{
 		
 		return user;
 	}
-	public UserEntity findByEmail(String email) throws Exception {
-        return repository.findByEmail(email)
-                .orElseThrow(() -> new Exception("Usuário não encontrado."));
-    }
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
