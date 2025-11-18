@@ -19,7 +19,7 @@ public class JWTUtils {
 
     public static String generateToken(UserEntity user) {
         return Jwts.builder()
-                .subject(email) // Define o "sub" com o email do usuário
+                .subject(user.getEmail()) // Define o "sub" com o email do usuário
                 .claim("nome",user.getName())
                 .issuedAt(new Date()) // Data de emissão
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) // Expiração

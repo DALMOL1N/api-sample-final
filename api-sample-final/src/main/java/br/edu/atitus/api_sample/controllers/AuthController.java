@@ -51,7 +51,7 @@ public class AuthController {
 		String token = JWTUtils.generateToken(user);
 		return ResponseEntity.ok(token);
 		
-		return ResponseEntity.ok(JWTUtils.generateToken(signin.email()));
+		
 	}
 	
 
