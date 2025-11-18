@@ -51,17 +51,7 @@ public class ConfigSecurity {
 		
 	}
 	
-//	@Bean
-//	WebMvcConfigurer corsConfigurer() {
-//		return new WebMvcConfigurer() {
-//			@Override
-//			public void addCorsMappings(CorsRegistry registry) {
-//				registry.addMapping("/**")
-//				.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-//				.allowedOrigins("*");
-//			}
-//		};
-//	}
+
 	
 	@Bean
 	PasswordEncoder getPasswordEncoder() {
