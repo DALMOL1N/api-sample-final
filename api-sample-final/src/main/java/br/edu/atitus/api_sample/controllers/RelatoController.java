@@ -43,8 +43,6 @@ public class RelatoController {
 			RelatoEntity relato = new RelatoEntity();
 			BeanUtils.copyProperties(dto, relato);
 			
-			relato.setType(dto.type());
-			
 			service.save(relato);
 			
 			return ResponseEntity.status(201).body(relato);
